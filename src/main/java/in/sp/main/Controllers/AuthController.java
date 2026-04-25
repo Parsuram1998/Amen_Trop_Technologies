@@ -1,19 +1,15 @@
 package in.sp.main.Controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import in.sp.main.Entities.Notification;
 import in.sp.main.Entities.User;
 import in.sp.main.Enums.Role;
-import in.sp.main.Repositories.NotificationRepository;
-import in.sp.main.Repositories.UserRepository;
 import in.sp.main.Services.AuthService;
 import in.sp.main.dto.LoginRequest;
 import in.sp.main.dto.RegisterRequest;
@@ -25,10 +21,7 @@ public class AuthController {
 
     @Autowired
     private AuthService authService;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private NotificationRepository notificationRepository;
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginPage(Model model) {
         model.addAttribute("loginRequest", new LoginRequest());
@@ -130,19 +123,5 @@ public class AuthController {
 
         model.addAttribute("registerRequest", req);
         return "register/hr-register";
-    }
-    
-    @RequestMapping("/notifications")
-    public String notifications(HttpSession session, Model model){
-
-        Long userId = (Long) session.getAttribute("USER_ID");
-
-        User user = userRepository.findById(userId).orElseThrow();
-
-        List<Notification> list = notificationRepository.findByReceiverOrderByCreatedAtDesc(user);
-
-        model.addAttribute("notifications", list);
-
-        return "common/notifications";
     }
 }

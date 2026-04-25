@@ -13,17 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import in.sp.main.Entities.FresherProfile;
 import in.sp.main.Entities.HrCandidateSelection;
-import in.sp.main.Entities.HrRequest;
 import in.sp.main.Entities.ProfessionalProfile;
 import in.sp.main.Entities.User;
 import in.sp.main.Enums.FresherStatus;
 import in.sp.main.Enums.HrCandidateStatus;
 import in.sp.main.Repositories.FresherProfileRepository;
 import in.sp.main.Repositories.HrCandidateSelectionRepository;
-import in.sp.main.Repositories.HrRequestRepository;
 import in.sp.main.Repositories.ProfessionalProfileRepository;
 import in.sp.main.Repositories.UserRepository;
-import in.sp.main.ServicesImpl.NotificationService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -35,10 +32,8 @@ public class HRController {
 
     @Autowired
     private ProfessionalProfileRepository professionalRepo;
-    @Autowired
-    private NotificationService notificationService;
-    @Autowired
-    private HrRequestRepository hrRequestRepo;
+    
+    
     @Autowired
     private UserRepository userRepository;
 
@@ -67,8 +62,7 @@ public class HRController {
         sel.setLocked(true);
 
         selectionRepo.save(sel);
-        notificationService.send(candidate,
-                "You have been shortlisted by HR");
+
         return "redirect:/hr/dashboard";
     }
 
@@ -87,8 +81,6 @@ public class HRController {
         if(status == HrCandidateStatus.REJECTED){
             sel.setLocked(false);
             sel.setFeedback(feedback);
-            notificationService.send(sel.getCandidate(),
-                    "You have been rejected. Feedback: " + feedback);
         }
 
         selectionRepo.save(sel);
@@ -99,21 +91,7 @@ public class HRController {
     
     
     @RequestMapping(value="/dashboard", method=RequestMethod.GET)
-    public String dashboard(Model model){
-
-    	long totalCandidates = fresherProfileRepository.count();
-
-    	long selectedCandidates = fresherProfileRepository.countByStatus(FresherStatus.SELECTED);
-
-    	long inProgress = fresherProfileRepository.countByStatus(FresherStatus.IN_PROGRESS);
-
-    	//long rejected = fresherProfileRepository.countByStatus(FresherStatus.);
-
-        model.addAttribute("totalCandidates", totalCandidates);
-        model.addAttribute("selectedCandidates", selectedCandidates);
-        model.addAttribute("inProgress", inProgress);
-      //  model.addAttribute("rejected", rejected);
-
+    public String dashboard(){
         return "hr/dashboard";
     }
     
@@ -169,24 +147,5 @@ public class HRController {
         model.addAttribute("profile", profile);
 
         return "hr/fresher-profile";
-    }
-    
-    @RequestMapping(value="/support", method=RequestMethod.POST)
-    public String support(@RequestParam String type,
-                          @RequestParam String message,
-                          HttpSession session){
-
-        Long userId = (Long) session.getAttribute("USER_ID");
-
-        User hr = userRepository.findById(userId).orElseThrow();
-
-        HrRequest req = new HrRequest();
-        req.setHr(hr);
-        req.setType(type);
-        req.setMessage(message);
-
-        hrRequestRepo.save(req);
-
-        return "redirect:/hr/dashboard?success=requestSent";
     }
 }
