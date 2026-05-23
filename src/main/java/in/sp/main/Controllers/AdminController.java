@@ -204,24 +204,40 @@ public class AdminController {
 
             System.out.println("=== ADMIN TRIGGER CERTIFICATE ===");
 
-            FresherProfile profile = fresherProfileRepository.findById(fresherId).orElseThrow();
+            FresherProfile profile =
+                    fresherProfileRepository.findById(fresherId)
+                    .orElseThrow();
 
             User user = profile.getUser();
 
+            // GENERATE FILE
             String path = certificateService.generateCertificate(user);
 
             System.out.println("Generated Path: " + path);
 
+            // VALIDATE
+            if(path == null || path.isEmpty()){
+
+                System.out.println("CERTIFICATE PATH EMPTY");
+
+                return "redirect:/admin/freshers";
+            }
+
+            // SAVE TO PROFILE
             profile.setCertificatePath(path);
+
             profile.setCertificateApproved(true);
 
             fresherProfileRepository.save(profile);
 
             System.out.println("=== DB SAVED SUCCESS ===");
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
+
             System.out.println("=== ERROR IN ADMIN CERTIFICATE ===");
-            e.printStackTrace(); 
+
+            e.printStackTrace();
         }
 
         return "redirect:/admin/freshers";

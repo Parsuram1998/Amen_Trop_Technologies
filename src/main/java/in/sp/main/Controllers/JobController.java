@@ -1,6 +1,7 @@
 package in.sp.main.Controllers;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,35 +53,46 @@ public class JobController {
 
         try {
 
-            System.out.println("STEP 1");
-
             Object roleObj = session.getAttribute("ROLE");
-            System.out.println("ROLE = " + roleObj);
 
             if (roleObj == null) {
                 return "redirect:/auth/login";
             }
 
             Role role = Role.valueOf(roleObj.toString());
-            System.out.println("ROLE CASTED = " + role);
 
             List<Job> jobs;
 
-            System.out.println("STEP 2");
+            // ✅ FRESHER USERS
+            if(role == Role.FRESHER){
 
-            // 🔥 TEMP: bypass query
-            jobs = jobRepository.findAll();
+                jobs = jobRepository.findByJobTypeInIgnoreCase(
+                        Arrays.asList("fresher", "both")
+                );
 
-            System.out.println("JOBS SIZE = " + jobs.size());
+            }
+            else if(role == Role.PROFESSIONAL){
+
+                jobs = jobRepository.findByJobTypeInIgnoreCase(
+                        Arrays.asList("professional", "both")
+                );
+
+            }
+
+            // ✅ ADMIN / HR / OTHER
+            else{
+
+                jobs = jobRepository.findAll();
+            }
 
             model.addAttribute("jobs", jobs);
-
-            System.out.println("STEP 3");
 
             return "jobs/list";
 
         } catch (Exception e) {
-            e.printStackTrace();   // ⭐ THIS IS THE KEY
+
+            e.printStackTrace();
+
             return "error";
         }
     }

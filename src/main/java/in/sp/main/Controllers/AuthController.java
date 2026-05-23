@@ -86,11 +86,7 @@ public class AuthController {
             return "commons/register";
         }
     }
-    @RequestMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/auth/login";
-    }
+   
 
     @RequestMapping(value = "/register/fresher", method = RequestMethod.GET)
     public String fresherRegister(Model model) {

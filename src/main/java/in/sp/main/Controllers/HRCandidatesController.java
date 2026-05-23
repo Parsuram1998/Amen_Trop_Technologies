@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -148,6 +150,19 @@ public class HRCandidatesController {
 	    model.addAttribute("approvedMap", approvedMap);
 	    model.addAttribute("lockedMap", lockedMap);
 
+	    List<HrCandidateSelection> selections =
+	            selectionRepo.findAll();
+
+	    Set<Long> selectedCandidateIds =
+	            selections.stream()
+	            .map(s -> s.getCandidate().getId())
+	            .collect(Collectors.toSet());
+
+	    model.addAttribute(
+	            "selectedCandidateIds",
+	            selectedCandidateIds
+	    );
+	    
 	    return "hr/candidates";
 	}
 }

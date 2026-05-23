@@ -3,24 +3,43 @@ package in.sp.main.Controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import in.sp.main.Entities.FresherProfile;
+import in.sp.main.Entities.InternshipCertificate;
 import in.sp.main.Entities.Message;
 import in.sp.main.Entities.User;
 import in.sp.main.Repositories.FresherProfileRepository;
+import in.sp.main.Repositories.InternshipCertificateRepository;
 import in.sp.main.Repositories.JobApplicationRepository;
 import in.sp.main.Repositories.JobRepository;
 import in.sp.main.Repositories.MessageRepository;
 import in.sp.main.Repositories.UserRepository;
-import in.sp.main.Services.CertificateService;
 import in.sp.main.Services.FresherProfileService;
 import jakarta.servlet.http.HttpSession;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/fresher")
@@ -42,7 +61,7 @@ public class FresherController {
     private JobApplicationRepository applicationRepository;
 
     @Autowired
-    private CertificateService certificateService;
+    private InternshipCertificateRepository certificateRepository;
 
     @Autowired
     private MessageRepository messageRepo;
@@ -75,17 +94,38 @@ public class FresherController {
         System.out.println("APPROVED: " + (profile != null && profile.isCertificateApproved()));
         System.out.println("PATH: " + (profile != null ? profile.getCertificatePath() : "null"));
 
+        InternshipCertificate certificate =
+                certificateRepository
+                .findByUser(user)
+                .orElse(null);
+
         boolean showCertificate = false;
         String certificatePath = null;
 
-        if (profile != null && profile.isCertificateApproved() && profile.getCertificatePath() != null) {
+        if(certificate != null
+                && certificate.getFilePath() != null
+                && !certificate.getFilePath().isEmpty()){
+
             showCertificate = true;
-            certificatePath = profile.getCertificatePath();
+
+            certificatePath = certificate.getFilePath();
+
+            System.out.println("SHOW CERTIFICATE: true");
+            System.out.println("PATH: " + certificatePath);
+
         }
+        else{
+
+            System.out.println("SHOW CERTIFICATE: false");
+        }
+
+        model.addAttribute("showCertificate", showCertificate);
+
+        model.addAttribute("certificatePath", certificatePath);
 
         System.out.println("SHOW CERTIFICATE: " + showCertificate);
         model.addAttribute("user", user);
-        model.addAttribute("showCertificate", showCertificate);
+      
         model.addAttribute("certificatePath", certificatePath);
 
         return "fresher/dashboard";
@@ -195,17 +235,32 @@ public class FresherController {
     
    
     @RequestMapping(value="/download-certificate", method=RequestMethod.GET)
-    public String certificate(HttpSession session, Model model){
+    @GetMapping("/certificate/{fileName}")
+    @ResponseBody
+    public ResponseEntity<Resource> downloadCertificate(
+            @PathVariable String fileName) throws Exception {
 
-        Long userId = (Long) session.getAttribute("USER_ID");
+        Path path = Paths.get(
+                System.getProperty("user.dir")
+                + "/certificates/"
+                + fileName
+        );
 
-        User user = userRepository.findById(userId).orElseThrow();
+        Resource resource =
+                new UrlResource(path.toUri());
 
-        String file = certificateService.generateCertificate(user);
+        if(!resource.exists()){
 
-        model.addAttribute("file", file);
+            throw new RuntimeException("File not found");
+        }
 
-        return "fresher/certificate";
+        return ResponseEntity.ok()
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + fileName + "\""
+                )
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(resource);
     }
     
     @RequestMapping(value="/toggle-profile", method=RequestMethod.GET)

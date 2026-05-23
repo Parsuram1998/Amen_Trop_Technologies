@@ -146,7 +146,52 @@ body{
 a{
     text-decoration:none;
 }
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
 
+.toggle-container{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.toggle-label{
+    color:#d4af37;
+    font-size:13px;
+    font-weight:600;
+}
+
+.toggle-btn{
+    width:55px;
+    height:28px;
+    border-radius:30px;
+    padding:3px;
+    display:flex;
+    align-items:center;
+    text-decoration:none;
+    transition:all 0.3s ease;
+}
+
+.toggle-btn.active{
+    background:#d4af37;
+    justify-content:flex-end;
+}
+
+.toggle-btn.inactive{
+    background:#333;
+    justify-content:flex-start;
+}
+
+.toggle-circle{
+    width:22px;
+    height:22px;
+    background:white;
+    border-radius:50%;
+    transition:all 0.3s ease;
+}
 </style>
 
 </head>
@@ -170,7 +215,32 @@ a{
 <div class="main">
 
 <div class="header">
-    <h2>Fresher Dashboard</h2>
+
+    <h2>🎓 Fresher Dashboard</h2>
+
+   <div class="toggle-container">
+
+    <span class="toggle-label" id="toggleText">
+
+        <c:choose>
+            <c:when test="${user.profileActive}">
+                Active
+            </c:when>
+            <c:otherwise>
+                Inactive
+            </c:otherwise>
+        </c:choose>
+
+    </span>
+
+    <a href="${pageContext.request.contextPath}/fresher/toggle-profile"
+       class="toggle-btn ${user.profileActive ? 'active' : 'inactive'}">
+
+        <div class="toggle-circle"></div>
+
+    </a>
+
+</div>
 </div>
 
 <!-- STATS -->
@@ -213,13 +283,23 @@ a{
         <div class="action-desc">Control profile visibility</div>
     </a>
 
-    <c:if test="${showCertificate}">
-        <a class="action-card" target="_blank"
-           href="${pageContext.request.contextPath}/files/${certificatePath}">
-            <div class="action-title">Download Certificate</div>
-            <div class="action-desc">Get your internship certificate</div>
-        </a>
-    </c:if>
+  <c:if test="${showCertificate}">
+
+    <a class="action-card"
+       target="_blank"
+       href="${pageContext.request.contextPath}/certificates/${certificatePath}">
+
+        <div class="action-title">
+            Download Certificate
+        </div>
+
+        <div class="action-desc">
+            Get your internship certificate
+        </div>
+
+    </a>
+
+</c:if>
 
     <a class="action-card" href="${pageContext.request.contextPath}/fresher/messages">
         <div class="action-title">Messages</div>

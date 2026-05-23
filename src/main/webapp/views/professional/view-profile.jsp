@@ -176,7 +176,35 @@ body{
 .btn:hover{
     opacity:0.9;
 }
+.link-btn{
+    display:inline-block;
+    padding:10px 18px;
+    border-radius:10px;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:0.5px;
+    transition:all 0.3s ease;
+    border:1px solid #d4af37;
+    background:#111111;
+    color:#d4af37;
+    box-shadow:0 4px 12px rgba(212,175,55,0.15);
+}
 
+.link-btn:hover{
+    background:#d4af37;
+    color:#111111;
+    transform:translateY(-2px);
+    box-shadow:0 6px 18px rgba(212,175,55,0.35);
+}
+
+.linkedin-btn{
+    margin-right:10px;
+}
+
+.portfolio-btn{
+    margin-top:6px;
+}
 </style>
 
 </head>
@@ -218,72 +246,218 @@ body{
 <div class="profile-card">
 
 <!-- TOP -->
+<!-- TOP -->
 <div class="top">
-    <div class="title">${profile.currentRole}</div>
+
+    <div class="title">
+        ${profile.currentRole}
+    </div>
 
     <div>
+
         <span class="badge verified">
             <c:choose>
-                <c:when test="${profile.verified}">Verified</c:when>
-                <c:otherwise>Not Verified</c:otherwise>
+                <c:when test="${profile.verified}">
+                    Verified
+                </c:when>
+                <c:otherwise>
+                    Not Verified
+                </c:otherwise>
             </c:choose>
         </span>
 
-        <span class="badge notice">${profile.noticePeriod}</span>
+        <span class="badge notice">
+            ${profile.noticePeriod}
+        </span>
+
     </div>
+
 </div>
 
 <!-- GRID -->
 <div class="grid">
 
-<div class="item">
-<div class="label">Experience</div>
-<div class="value">${profile.experienceYears} Years</div>
-</div>
+    <!-- USER DETAILS -->
+
+    <div class="item">
+        <div class="label">Full Name</div>
+        <div class="value">${profile.user.fullName}</div>
+    </div>
+
+    <div class="item">
+        <div class="label">Email</div>
+        <div class="value">${profile.user.email}</div>
+    </div>
+
+    <div class="item">
+        <div class="label">Phone</div>
+        <div class="value">${profile.user.phone}</div>
+    </div>
+
+    <!-- PROFESSIONAL DETAILS -->
+
+    <div class="item">
+        <div class="label">Experience</div>
+        <div class="value">
+            ${profile.experienceYears} Years
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="label">Current Role</div>
+        <div class="value">
+            ${profile.currentRole}
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="label">Company</div>
+        <div class="value">
+            ${profile.companyName}
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="label">Company Location</div>
+        <div class="value">
+            ${profile.companyLocation}
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="label">Current CTC</div>
+        <div class="value">
+            ₹ ${profile.currentCtc} LPA
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="label">Expected CTC</div>
+        <div class="value">
+            ₹ ${profile.expectedCtc} LPA
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="label">Domain Looking</div>
+        <div class="value">
+            ${profile.domainLooking}
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="label">Preferred Locations</div>
+        <div class="value">
+            ${profile.preferredLocations}
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="label">Notice Period</div>
+        <div class="value">
+            ${profile.noticePeriod}
+        </div>
+    </div>
+
+    <!-- STATUS -->
+
+    <div class="item">
+        <div class="label">Approved Status</div>
+        <div class="value">
+            <c:choose>
+                <c:when test="${profile.approved}">
+                    Approved
+                </c:when>
+                <c:otherwise>
+                    Pending
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="label">Profile Status</div>
+        <div class="value">
+            <c:choose>
+                <c:when test="${profile.active}">
+                    Active
+                </c:when>
+                <c:otherwise>
+                    Inactive
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </div>
+
+    <%-- <div class="item">
+        <div class="label">HR Lock Status</div>
+        <div class="value">
+
+            <c:choose>
+
+                <c:when test="${profile.lockedByHrId != null}">
+                    Locked By HR
+                </c:when>
+
+                <c:otherwise>
+                    Available
+                </c:otherwise>
+
+            </c:choose>
+
+        </div>
+    </div> --%>
+
+    <!-- SKILLS -->
+
+    <div class="item full">
+        <div class="label">Skill Set</div>
+        <div class="value">
+            ${profile.skillSet}
+        </div>
+    </div>
+    
+
+    <!-- LINKS -->
 
 <div class="item">
-<div class="label">Company</div>
-<div class="value">${profile.companyName}</div>
+    <div class="label">LinkedIn</div>
+
+    <div class="value">
+
+        <c:if test="${profile.linkedIn != null}">
+
+            <a href="${profile.linkedIn}"
+               target="_blank"
+               class="link-btn linkedin-btn">
+
+               LinkedIn Profile
+
+            </a>
+
+        </c:if>
+
+    </div>
 </div>
 
 <div class="item">
-<div class="label">Location</div>
-<div class="value">${profile.companyLocation}</div>
-</div>
+    <div class="label">Portfolio</div>
 
-<div class="item">
-<div class="label">Current CTC</div>
-<div class="value">${profile.currentCtc}</div>
-</div>
+    <div class="value">
 
-<div class="item">
-<div class="label">Expected CTC</div>
-<div class="value">${profile.expectedCtc}</div>
-</div>
+        <c:if test="${profile.portfolio != null}">
 
-<div class="item">
-<div class="label">Domain Looking</div>
-<div class="value">${profile.domainLooking}</div>
-</div>
+            <a href="${profile.portfolio}"
+               target="_blank"
+               class="link-btn portfolio-btn">
 
-<div class="item full">
-<div class="label">Skill Set</div>
-<div class="value">${profile.skillSet}</div>
-</div>
+               View Portfolio
 
-<div class="item full">
-<div class="label">Preferred Locations</div>
-<div class="value">${profile.preferredLocations}</div>
-</div>
+            </a>
 
-<div class="item">
-<div class="label">LinkedIn</div>
-<div class="value">${profile.linkedIn}</div>
-</div>
+        </c:if>
 
-<div class="item">
-<div class="label">Portfolio</div>
-<div class="value">${profile.portfolio}</div>
+    </div>
 </div>
 
 </div>
@@ -291,19 +465,24 @@ body{
 <!-- ACTIONS -->
 <div class="actions">
 
-<c:if test="${profile.resumePath != null}">
-<a class="btn secondary" target="_blank"
-   href="${pageContext.request.contextPath}/files/${profile.resumePath}">
-   Resume
-</a>
-</c:if>
+    <c:if test="${profile.resumePath != null}">
 
-<a class="btn primary"
-   href="${pageContext.request.contextPath}/professional/edit-profile">
-   Edit Profile
-</a>
+        <a class="btn secondary"
+           target="_blank"
+           href="${pageContext.request.contextPath}/files/${profile.resumePath}">
 
+           Download Resume
 
+        </a>
+
+    </c:if>
+
+    <a class="btn primary"
+       href="${pageContext.request.contextPath}/professional/edit-profile">
+
+       Edit Profile
+
+    </a>
 
 </div>
 

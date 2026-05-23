@@ -279,9 +279,30 @@ a:hover{
 <td class="bond">${bondMap[c.id]}</td>
 
 <td>
-<a href="${pageContext.request.contextPath}/hr/select?candidateId=${c.id}">
-Select
-</a>
+
+<c:choose>
+
+    <c:when test="${selectedCandidateIds != null 
+                    and selectedCandidateIds.contains(c.id)}">
+
+        <a class="btn danger"
+           href="${pageContext.request.contextPath}/hr/unselect?candidateId=${c.id}">
+            Unselect
+        </a>
+
+    </c:when>
+
+    <c:otherwise>
+
+        <a class="btn primary"
+           href="${pageContext.request.contextPath}/hr/select?candidateId=${c.id}">
+            Select
+        </a>
+
+    </c:otherwise>
+
+</c:choose>
+
 </td>
 
 <td>

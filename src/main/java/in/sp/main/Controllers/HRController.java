@@ -47,29 +47,88 @@ public class HRController {
 
     // 🔥 SELECT CANDIDATE
     @RequestMapping(value="/select", method=RequestMethod.GET)
-    public String selectCandidate(@RequestParam Long candidateId,
-                                 HttpSession session){
+    public String selectCandidate(
+            @RequestParam Long candidateId,
+            HttpSession session){
 
-        Long hrId = (Long) session.getAttribute("USER_ID");
+        try {
 
-        User hr = userRepository.findById(hrId).orElseThrow();
-        User candidate = userRepository.findById(candidateId).orElseThrow();
+            Long hrId =
+                    (Long) session.getAttribute("USER_ID");
 
-        // check if already locked
-        if(selectionRepo.findByCandidate(candidate).isPresent()){
-            return "redirect:/hr/candidates?error=alreadyTaken";
+            if(hrId == null){
+                return "redirect:/auth/login";
+            }
+
+            User hr =
+                    userRepository.findById(hrId)
+                    .orElseThrow();
+
+            // 🔥 candidateId is USER ID
+            User candidate =
+                    userRepository.findById(candidateId)
+                    .orElseThrow();
+
+            // already selected check
+            if(selectionRepo
+                    .findByCandidate(candidate)
+                    .isPresent()){
+
+                return "redirect:/hr/candidates?error=alreadyTaken";
+            }
+
+            HrCandidateSelection sel =
+                    new HrCandidateSelection();
+
+            sel.setHr(hr);
+
+            sel.setCandidate(candidate);
+
+            sel.setStatus(
+                    HrCandidateStatus.SHORTLISTED
+            );
+
+            sel.setLocked(true);
+
+            selectionRepo.save(sel);
+
+            return "redirect:/hr/dashboard";
+
         }
+        catch (Exception e){
 
-        HrCandidateSelection sel = new HrCandidateSelection();
-        sel.setHr(hr);
-        sel.setCandidate(candidate);
-        sel.setStatus(HrCandidateStatus.SHORTLISTED);
-        sel.setLocked(true);
+            e.printStackTrace();
 
-        selectionRepo.save(sel);
-        notificationService.send(candidate,
-                "You have been shortlisted by HR");
-        return "redirect:/hr/dashboard";
+            return "redirect:/hr/candidates?error=failed";
+        }
+    }
+    
+    @RequestMapping(value="/unselect", method=RequestMethod.GET)
+    public String unselectCandidate(
+            @RequestParam Long candidateId){
+
+        try {
+
+            User candidate =
+                    userRepository.findById(candidateId)
+                    .orElseThrow();
+
+            HrCandidateSelection selection =
+                    selectionRepo
+                    .findByCandidate(candidate)
+                    .orElseThrow();
+
+            selectionRepo.delete(selection);
+
+            return "redirect:/candidates";
+
+        }
+        catch(Exception e){
+
+            e.printStackTrace();
+
+            return "redirect:/hr/candidates?error=unselectFailed";
+        }
     }
 
     // 🔥 UPDATE STATUS

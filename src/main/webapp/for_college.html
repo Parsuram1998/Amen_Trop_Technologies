@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amentrop - For Colleges</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+	crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="preload"
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@700;800;900&display=swap"
+	as="style" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --gold:#D4AF37;
+    --gold-light:#f5d173;
+    --black:#080808;
+    --black2:#111111;
+    --card:#161616;
+    --text:#b6b6b6;
+    --white:#ffffff;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:var(--black);
+    font-family:'Poppins',sans-serif;
+    overflow-x:hidden;
+    color:#fff;
+}
+
+h1,h2,h3,h4,h5{
+    font-family:'Montserrat',sans-serif;
+    font-weight:800;
+}
+
+.container{
+    max-width:1280px;
+}
+
+/* NAVBAR */
+
+.navbar{
+    background:rgba(0,0,0,0.92);
+    backdrop-filter:blur(14px);
+    padding:18px 0;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.nav-logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+}
+
+.website-logo{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid rgba(212,175,55,0.4);
+}
+
+.logo-text{
+    font-size:1.8rem;
+    font-weight:900;
+    color:#fff;
+}
+
+.logo-text span{
+    background:linear-gradient(135deg,var(--gold),var(--gold-light));
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.nav-link{
+    color:#fff !important;
+    margin-left:20px;
+    transition:0.3s;
+    font-weight:500;
+}
+
+.nav-link:hover{
+    color:var(--gold-light) !important;
+}
+
+.btn-gold{
+    background:linear-gradient(135deg,var(--gold),var(--gold-light));
+    border:none;
+    color:#000;
+    padding:15px 30px;
+    border-radius:14px;
+    font-weight:700;
+    transition:0.35s;
+}
+
+.btn-gold:hover{
+    transform:translateY(-3px);
+    box-shadow:0 18px 35px rgba(212,175,55,0.28);
+}
+
+/* HERO */
+
+.hero{
+    min-height:100vh;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    overflow:hidden;
+    padding-top:120px;
+
+    background:
+    linear-gradient(rgba(0,0,0,0.72),rgba(0,0,0,0.82)),
+    url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop');
+
+    background-size:cover;
+    background-position:center;
+}
+
+.hero::before{
+    content:"";
+    position:absolute;
+    width:900px;
+    height:900px;
+    background:radial-gradient(circle,rgba(212,175,55,0.13),transparent 70%);
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    max-width:1100px;
+    margin:auto;
+}
+
+.hero-badge{
+    display:inline-block;
+    padding:12px 26px;
+    border-radius:50px;
+    background:rgba(212,175,55,0.08);
+    border:1px solid rgba(212,175,55,0.25);
+    color:var(--gold-light);
+    letter-spacing:3px;
+    font-size:0.82rem;
+    margin-bottom:35px;
+}
+
+.hero h1{
+    font-size:4rem;
+    line-height:1.12;
+    margin-bottom:30px;
+}
+
+.hero h1 span{
+    background:linear-gradient(135deg,var(--gold),var(--gold-light));
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.hero p{
+    color:#c9c9c9;
+    line-height:2;
+    font-size:1rem;
+    max-width:900px;
+    margin:auto;
+    margin-bottom:45px;
+}
+
+.hero-buttons{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.btn-dark-outline{
+    background:transparent;
+    border:1px solid rgba(255,255,255,0.15);
+    color:#fff;
+    padding:15px 28px;
+    border-radius:14px;
+    transition:0.3s;
+}
+
+.btn-dark-outline:hover{
+    background:#fff;
+    color:#000;
+}
+
+.hero-stats{
+    margin-top:70px;
+    display:flex;
+    justify-content:center;
+    gap:80px;
+    flex-wrap:wrap;
+}
+
+.hero-stat h2{
+    font-size:2rem;
+    margin-bottom:8px;
+    background:linear-gradient(135deg,var(--gold),var(--gold-light));
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.hero-stat p{
+    margin:0;
+    font-size:0.95rem;
+    color:#989898;
+}
+
+/* SCROLLING COLLEGES */
+
+/* PREMIUM GOLD SCROLL STRIP */
+
+.partner-strip{
+    background:linear-gradient(135deg,#D4AF37,#f5d173);
+    overflow:hidden;
+    padding:20px 0;
+    position:relative;
+    border-top:1px solid rgba(255,255,255,0.15);
+    border-bottom:1px solid rgba(255,255,255,0.15);
+    box-shadow:
+    0 10px 30px rgba(212,175,55,0.18),
+    0 -10px 30px rgba(212,175,55,0.08);
+}
+
+.partner-strip::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+    linear-gradient(
+    90deg,
+    rgba(255,255,255,0.15),
+    transparent,
+    rgba(255,255,255,0.15)
+    );
+}
+
+.partner-track{
+    display:flex;
+    width:max-content;
+    animation:scroll 28s linear infinite;
+    gap:70px;
+    position:relative;
+    z-index:2;
+}
+
+.partner-item{
+    color:#111;
+    font-weight:800;
+    letter-spacing:3px;
+    font-size:0.95rem;
+    white-space:nowrap;
+    text-transform:uppercase;
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.partner-item::after{
+    content:"✦";
+    color:#111;
+    font-size:1rem;
+    opacity:0.8;
+}
+
+@keyframes scroll{
+    from{
+        transform:translateX(0);
+    }
+    to{
+        transform:translateX(-50%);
+    }
+}
+
+@keyframes scroll{
+    from{
+        transform:translateX(0);
+    }
+    to{
+        transform:translateX(-50%);
+    }
+}
+
+/* SECTIONS */
+
+section{
+    padding:110px 0;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:70px;
+}
+
+.section-title span{
+    color:var(--gold);
+    letter-spacing:4px;
+    font-size:0.85rem;
+    display:block;
+    margin-bottom:18px;
+}
+
+.section-title h2{
+    font-size:3rem;
+    margin-bottom:20px;
+}
+
+.section-title p{
+    color:#a8a8a8;
+    max-width:760px;
+    margin:auto;
+    line-height:2;
+}
+
+/* FEATURE CARDS */
+
+.feature-card{
+    background:rgba(18,18,18,0.95);
+    border:1px solid rgba(212,175,55,0.12);
+    border-radius:28px;
+    padding:45px 35px;
+    transition:0.4s;
+    height:100%;
+    position:relative;
+    overflow:hidden;
+}
+
+.feature-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(135deg,rgba(212,175,55,0.06),transparent);
+    opacity:0;
+    transition:0.4s;
+}
+
+.feature-card:hover::before{
+    opacity:1;
+}
+
+.feature-card:hover{
+    transform:translateY(-12px);
+    border-color:rgba(212,175,55,0.4);
+    box-shadow:0 25px 50px rgba(0,0,0,0.45);
+}
+
+.feature-icon{
+    width:75px;
+    height:75px;
+    border-radius:20px;
+    background:rgba(212,175,55,0.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--gold);
+    font-size:1.7rem;
+    margin-bottom:28px;
+}
+
+.feature-card h3{
+    font-size:1.5rem;
+    margin-bottom:18px;
+}
+
+.feature-card p{
+    color:#9f9f9f;
+    line-height:1.9;
+}
+
+/* SHOWCASE */
+
+.showcase{
+    background:#0d0d0d;
+}
+
+.showcase-box{
+    background:linear-gradient(145deg,#141414,#1b1b1b);
+    border:1px solid rgba(212,175,55,0.1);
+    border-radius:35px;
+    padding:65px;
+}
+
+.showcase-box h2{
+    font-size:3.3rem;
+    line-height:1.3;
+    margin-bottom:25px;
+}
+
+.showcase-box h2 span{
+    color:var(--gold);
+}
+
+.showcase-box p{
+    color:#ababab;
+    line-height:2;
+    margin-bottom:35px;
+}
+
+.showcase-image{
+    border-radius:28px;
+    overflow:hidden;
+}
+
+.showcase-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* TIMELINE */
+
+.timeline{
+    position:relative;
+    max-width:1050px;
+    margin:auto;
+}
+
+.timeline::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:0;
+    width:2px;
+    height:100%;
+    background:rgba(212,175,55,0.15);
+}
+
+.timeline-item{
+    width:50%;
+    padding:25px 40px;
+    position:relative;
+}
+
+.timeline-item:nth-child(odd){
+    left:0;
+}
+
+.timeline-item:nth-child(even){
+    left:50%;
+}
+
+.timeline-content{
+    background:#151515;
+    border:1px solid rgba(212,175,55,0.12);
+    border-radius:24px;
+    padding:35px;
+    transition:0.35s;
+}
+
+.timeline-content:hover{
+    transform:translateY(-8px);
+    border-color:rgba(212,175,55,0.4);
+}
+
+.timeline-content h4{
+    color:var(--gold-light);
+    margin-bottom:15px;
+}
+
+.timeline-content p{
+    color:#9c9c9c;
+    line-height:1.9;
+}
+
+/* CTA */
+
+.cta{
+    position:relative;
+    overflow:hidden;
+    text-align:center;
+
+    background:
+    linear-gradient(rgba(0,0,0,0.82),rgba(0,0,0,0.84)),
+    url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop');
+
+    background-size:cover;
+    background-position:center;
+}
+
+.cta::before{
+    content:"";
+    position:absolute;
+    width:800px;
+    height:800px;
+    background:radial-gradient(circle,rgba(212,175,55,0.12),transparent 70%);
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+.cta-content{
+    position:relative;
+    z-index:2;
+}
+
+.cta h2{
+    font-size:4rem;
+    margin-bottom:25px;
+}
+
+.cta h2 span{
+    color:var(--gold);
+}
+
+.cta p{
+    color:#c0c0c0;
+    line-height:2;
+    max-width:850px;
+    margin:auto;
+    margin-bottom:45px;
+}
+
+/* FOOTER */
+
+.footer{
+    background:#090909;
+    padding:90px 0 40px;
+    border-top:1px solid rgba(255,255,255,0.05);
+}
+
+.footer-top{
+    padding-bottom:50px;
+    border-bottom:1px solid rgba(255,255,255,0.06);
+}
+
+.footer-title{
+    font-size:2rem;
+    margin-bottom:20px;
+}
+
+.footer-title span{
+    color:var(--gold);
+}
+
+.footer-desc{
+    color:#9e9e9e;
+    line-height:2;
+    max-width:500px;
+}
+
+.footer-links h5{
+    margin-bottom:25px;
+    font-size:1.1rem;
+}
+
+.footer-links ul{
+    list-style:none;
+    padding:0;
+}
+
+.footer-links ul li{
+    margin-bottom:14px;
+}
+
+.footer-links ul li a{
+    text-decoration:none;
+    color:#9a9a9a;
+    transition:0.3s;
+}
+
+.footer-links ul li a:hover{
+    color:var(--gold);
+    padding-left:6px;
+}
+
+.social-icons{
+    display:flex;
+    gap:15px;
+    margin-top:25px;
+}
+
+.social-icons a{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#151515;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--gold);
+    transition:0.3s;
+    text-decoration:none;
+}
+
+.social-icons a:hover{
+    background:var(--gold);
+    color:#000;
+    transform:translateY(-4px);
+}
+
+.footer-bottom{
+    text-align:center;
+    padding-top:35px;
+    color:#777;
+    font-size:0.92rem;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:992px){
+
+.hero h1{
+    font-size:4rem;
+}
+
+.timeline::before{
+    left:20px;
+}
+
+.timeline-item{
+    width:100%;
+    left:0 !important;
+    padding-left:70px;
+}
+
+.showcase-box{
+    padding:40px;
+}
+
+.cta h2{
+    font-size:3rem;
+}
+
+}
+
+@media(max-width:768px){
+
+.hero h1{
+    font-size:2.8rem;
+}
+
+.section-title h2{
+    font-size:2.2rem;
+}
+
+.showcase-box h2{
+    font-size:2.3rem;
+}
+
+.cta h2{
+    font-size:2.2rem;
+}
+
+.hero-stats{
+    gap:40px;
+}
+
+.footer-links{
+    margin-top:40px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+
+<div class="container">
+
+<a class="nav-logo" href="#">
+<img src="/assets/images/logo/logo.jpg" class="website-logo">
+<span class="logo-text">AMEN<span>TROP</span></span>
+</a>
+
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="navbarNav">
+
+<ul class="navbar-nav ms-auto align-items-lg-center">
+
+<li class="nav-item">
+    <a class="nav-link" href="/">Home</a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="/for_college.html">For Colleges</a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="/for_hr.html">For HR</a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="/student.html">Students</a>
+</li>
+
+<li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+    <a href="/auth/register" class="btn btn-gold">
+        Partner With Us
+    </a>
+</li>
+</ul>
+
+</div>
+
+</div>
+
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="container">
+
+<div class="hero-content">
+
+<div class="hero-badge">
+PREMIUM COLLEGE PARTNERSHIP PLATFORM
+</div>
+
+<h1>
+Build Campuses That Create
+<span>Successful Careers.</span>
+</h1>
+
+<p>
+Amentrop empowers institutions with modern placement ecosystems,
+industry partnerships, recruiter engagement, training programs,
+career acceleration systems, and premium student development experiences.
+</p>
+
+<div class="hero-buttons">
+
+<button class="btn btn-gold">
+<i class="fa-solid fa-building-columns me-2"></i>
+Become A Partner
+</button>
+
+<button class="btn-dark-outline">
+Explore Platform
+</button>
+
+</div>
+
+<div class="hero-stats">
+
+<div class="hero-stat">
+<h2>250+</h2>
+<p>College Partners</p>
+</div>
+
+<div class="hero-stat">
+<h2>40K+</h2>
+<p>Students Trained</p>
+</div>
+
+<div class="hero-stat">
+<h2>1200+</h2>
+<p>Recruiting Companies</p>
+</div>
+
+<div class="hero-stat">
+<h2>96%</h2>
+<p>Placement Success</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- SCROLLING STRIP -->
+
+<div class="partner-strip">
+
+<div class="partner-track">
+
+<div class="partner-item">PREMIUM ENGINEERING COLLEGES</div>
+<div class="partner-item">TOP UNIVERSITIES</div>
+<div class="partner-item">NAAC ACCREDITED INSTITUTIONS</div>
+<div class="partner-item">PLACEMENT EXCELLENCE NETWORK</div>
+<div class="partner-item">CORPORATE PARTNERS</div>
+<div class="partner-item">CAREER DEVELOPMENT ECOSYSTEM</div>
+
+<div class="partner-item">PREMIUM ENGINEERING COLLEGES</div>
+<div class="partner-item">TOP UNIVERSITIES</div>
+<div class="partner-item">NAAC ACCREDITED INSTITUTIONS</div>
+<div class="partner-item">PLACEMENT EXCELLENCE NETWORK</div>
+<div class="partner-item">CORPORATE PARTNERS</div>
+<div class="partner-item">CAREER DEVELOPMENT ECOSYSTEM</div>
+
+</div>
+
+</div>
+
+<!-- FEATURES -->
+
+<section>
+
+<div class="container">
+
+<div class="section-title">
+
+<span>WHY AMENTROP</span>
+
+<h2>
+A Complete Placement Ecosystem
+</h2>
+
+<p>
+Designed for colleges that want stronger recruiter engagement,
+better placements, modern training infrastructure,
+and career-focused student growth.
+</p>
+
+</div>
+
+<div class="row g-4">
+
+<div class="col-lg-4">
+
+<div class="feature-card">
+
+<div class="feature-icon">
+<i class="fa-solid fa-chart-line"></i>
+</div>
+
+<h3>Placement Management</h3>
+
+<p>
+Manage campus hiring, recruiter coordination,
+student profiles, drives, and placement activities
+through one streamlined ecosystem.
+</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="feature-card">
+
+<div class="feature-icon">
+<i class="fa-solid fa-graduation-cap"></i>
+</div>
+
+<h3>Student Development</h3>
+
+<p>
+Provide structured learning experiences,
+skill-building opportunities, workshops,
+and practical career preparation programs.
+</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="feature-card">
+
+<div class="feature-icon">
+<i class="fa-solid fa-briefcase"></i>
+</div>
+
+<h3>Recruiter Access</h3>
+
+<p>
+Connect students with trusted hiring companies,
+enterprise recruiters, startups,
+and premium industry opportunities.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- SHOWCASE -->
+
+<section class="showcase">
+
+<div class="container">
+
+<div class="showcase-box">
+
+<div class="row align-items-center g-5">
+
+<div class="col-lg-6">
+
+<h2>
+Transform Your Institution Into A
+<span>Placement Powerhouse.</span>
+</h2>
+
+<p>
+Strengthen your institution with modern placement workflows,
+industry collaboration, student visibility,
+premium recruiter experiences, and scalable career development systems.
+</p>
+
+<button class="btn btn-gold">
+Explore Solutions
+</button>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="showcase-image">
+<img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop">
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- TIMELINE -->
+
+<section>
+
+<div class="container">
+
+<div class="section-title">
+
+<span>HOW IT WORKS</span>
+
+<h2>
+The College Partnership Journey
+</h2>
+
+</div>
+
+<div class="timeline">
+
+<div class="timeline-item">
+<div class="timeline-content">
+<h4>Institution Onboarding</h4>
+<p>
+Colleges join the Amentrop ecosystem with dedicated access for placement and training management.
+</p>
+</div>
+</div>
+
+<div class="timeline-item">
+<div class="timeline-content">
+<h4>Student Profile Building</h4>
+<p>
+Students create structured professional profiles with skills, achievements, and portfolios.
+</p>
+</div>
+</div>
+
+<div class="timeline-item">
+<div class="timeline-content">
+<h4>Training & Preparation</h4>
+<p>
+Students participate in workshops, assessments, placement preparation, and career-focused programs.
+</p>
+</div>
+</div>
+
+<div class="timeline-item">
+<div class="timeline-content">
+<h4>Recruitment & Placements</h4>
+<p>
+Recruiters connect directly with institutions and students for hiring opportunities and campus drives.
+</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- CTA -->
+
+<section class="cta">
+
+<div class="container">
+
+<div class="cta-content">
+
+<h2>
+Create A Campus That
+<span>Companies Want To Hire From.</span>
+</h2>
+
+<p>
+Join a premium network of institutions focused on stronger placements,
+better student outcomes, recruiter visibility,
+and long-term career success.
+</p>
+
+<button class="btn btn-gold">
+Start Partnership
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+<div class="container">
+
+<div class="footer-top">
+
+<div class="row g-5">
+
+<div class="col-lg-5">
+
+<h2 class="footer-title">
+AMEN<span>TROP</span>
+</h2>
+
+<p class="footer-desc">
+Building modern placement ecosystems for institutions,
+students, and recruiters through premium career-focused platforms.
+</p>
+
+<div class="social-icons">
+
+<a href="#">
+<i class="fab fa-facebook-f"></i>
+</a>
+
+<a href="#">
+<i class="fab fa-instagram"></i>
+</a>
+
+<a href="#">
+<i class="fab fa-linkedin-in"></i>
+</a>
+
+<a href="#">
+<i class="fab fa-twitter"></i>
+</a>
+
+</div>
+
+</div>
+
+<div class="col-lg-2 col-md-4">
+
+<div class="footer-links">
+
+<h5>Platform</h5>
+
+<ul>
+<li><a href="#">Home</a></li>
+<li><a href="#">Programs</a></li>
+<li><a href="#">Placements</a></li>
+<li><a href="#">Partnerships</a></li>
+</ul>
+
+</div>
+
+</div>
+
+<div class="col-lg-2 col-md-4">
+
+<div class="footer-links">
+
+<h5>Resources</h5>
+
+<ul>
+<li><a href="#">Career Support</a></li>
+<li><a href="#">Student Training</a></li>
+<li><a href="#">Recruiters</a></li>
+<li><a href="#">Institution Help</a></li>
+</ul>
+
+</div>
+
+</div>
+
+<div class="col-lg-3 col-md-4">
+
+<div class="footer-links">
+
+<h5>Contact</h5>
+
+<ul>
+<li><a href="#">support@amentrop.com</a></li>
+<li><a href="#">+91 9876543210</a></li>
+<li><a href="#">Bangalore, India</a></li>
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="footer-bottom">
+© 2026 Amentrop. All Rights Reserved.
+</div>
+
+</div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
