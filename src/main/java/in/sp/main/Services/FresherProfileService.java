@@ -17,6 +17,9 @@ public interface FresherProfileService {
             MultipartFile resume,
             MultipartFile video,
             MultipartFile photo,
-            MultipartFile aadhar
+            MultipartFile aadhar,
+            String qualification,
+            String branch,
+            Integer yearOfPassout
     );
 }

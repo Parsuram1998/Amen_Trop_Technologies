@@ -75,60 +75,137 @@ public class ProfessionalController {
     @RequestMapping(value="/save-profile", method=RequestMethod.POST)
     public String saveProfile(
             HttpSession session,
+
             @RequestParam int experienceYears,
+
             @RequestParam String currentRole,
-            @RequestParam Double currentCtc,
-            @RequestParam Double expectedCtc,
+
+            @RequestParam(required = false)
+            Double currentCtc,
+
+            @RequestParam(required = false)
+            Double expectedCtc,
+
             @RequestParam String domainLooking,
+
             @RequestParam String skillSet,
+
             @RequestParam String companyName,
+
             @RequestParam String companyLocation,
+
             @RequestParam String preferredLocations,
+
             @RequestParam String noticePeriod,
+
             @RequestParam String linkedIn,
+
             @RequestParam String portfolio,
-            @RequestParam("resume") MultipartFile resume
+
+            @RequestParam String qualification,
+
+            @RequestParam String branch,
+
+            @RequestParam(required = false)
+            Integer yearOfPassout,
+
+            @RequestParam("resume")
+            MultipartFile resume
     ) {
-
-        Long userId = (Long) session.getAttribute("USER_ID");
-
-        User user = userRepository.findById(userId).orElseThrow();
-
-        ProfessionalProfile profile =
-                professionalRepo.findByUser(user)
-                        .orElse(new ProfessionalProfile());
-
-        profile.setUser(user);
-        profile.setExperienceYears(experienceYears);
-        profile.setCurrentRole(currentRole);
-        profile.setCurrentCtc(currentCtc);
-        profile.setExpectedCtc(expectedCtc);
-        profile.setDomainLooking(domainLooking);
-        profile.setSkillSet(skillSet);
-        profile.setCompanyName(companyName);
-        profile.setCompanyLocation(companyLocation);
-        profile.setPreferredLocations(preferredLocations);
-        profile.setNoticePeriod(noticePeriod);
-        profile.setLinkedIn(linkedIn);
-        profile.setPortfolio(portfolio);
-        profile.setVerified(false);
 
         try {
 
-            String resumeFile = fileUploadServices.saveFile(resume);
+            Long userId =
+                    (Long) session.getAttribute("USER_ID");
 
-            if (resumeFile != null) {
-                profile.setResumePath(resumeFile);
+            if(userId == null){
+
+                return "redirect:/auth/login";
             }
 
-        } catch (IOException e) {
-            throw new RuntimeException("Resume upload failed: " + e.getMessage());
+            User user =
+                    userRepository.findById(userId)
+                    .orElseThrow();
+
+            ProfessionalProfile profile =
+                    professionalRepo
+                    .findByUser(user)
+                    .orElse(new ProfessionalProfile());
+
+            // USER
+
+            profile.setUser(user);
+
+            // BASIC DETAILS
+
+            profile.setExperienceYears(experienceYears);
+
+            profile.setCurrentRole(currentRole);
+
+            profile.setCurrentCtc(currentCtc);
+
+            profile.setExpectedCtc(expectedCtc);
+
+            profile.setDomainLooking(domainLooking);
+
+            profile.setSkillSet(skillSet);
+
+            profile.setCompanyName(companyName);
+
+            profile.setCompanyLocation(companyLocation);
+
+            profile.setPreferredLocations(preferredLocations);
+
+            profile.setNoticePeriod(noticePeriod);
+
+            profile.setLinkedIn(linkedIn);
+
+            profile.setPortfolio(portfolio);
+
+            profile.setQualification(qualification);
+
+            profile.setBranch(branch);
+
+            profile.setYearOfPassout(yearOfPassout);
+
+            // ONLY FOR NEW PROFILE
+
+            if(profile.getId() == null){
+
+                profile.setVerified(false);
+
+                profile.setApproved(false);
+
+                profile.setActive(true);
+            }
+
+            // RESUME UPLOAD
+
+            if(resume != null
+                    && !resume.isEmpty()){
+
+                String resumeFile =
+                        fileUploadServices
+                        .saveFile(resume);
+
+                if(resumeFile != null){
+
+                    profile.setResumePath(resumeFile);
+                }
+            }
+
+            professionalRepo.save(profile);
+
+            return "redirect:/professional/dashboard";
         }
 
-        professionalRepo.save(profile);
+        catch (Exception e){
 
-        return "redirect:/professional/dashboard";
-    }
+            e.printStackTrace();
+
+            return "redirect:/professional/edit-profile?error";
+        }
+    }    
     @RequestMapping(value="/edit-profile", method=RequestMethod.GET)
     public String editProfile(HttpSession session, Model model){
 
@@ -144,19 +221,31 @@ public class ProfessionalController {
         return "professional/edit-profile";
     }
     
-    @RequestMapping(value="/profile", method=RequestMethod.GET)
-    public String viewProfile(HttpSession session, Model model){
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    public String profileForm(HttpSession session, Model model) {
 
         Long userId = (Long) session.getAttribute("USER_ID");
 
-        User user = userRepository.findById(userId).orElseThrow();
+        if (userId == null) {
+            return "redirect:/auth/login";
+        }
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         ProfessionalProfile profile =
                 professionalRepo.findByUser(user).orElse(null);
 
-        model.addAttribute("profile", profile);
+        // ✅ IF PROFILE EXISTS → VIEW PROFILE PAGE
+        if (profile != null) {
 
-        return "professional/view-profile";
+            model.addAttribute("profile", profile);
+
+            return "professional/view-profile";
+        }
+
+        // ✅ ELSE → CREATE PROFILE PAGE
+        return "professional/create-profile";
     }
     
     @RequestMapping(value="/toggle-profile", method=RequestMethod.GET)

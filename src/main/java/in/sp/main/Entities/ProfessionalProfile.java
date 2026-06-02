@@ -47,8 +47,62 @@ public class ProfessionalProfile {
     private Boolean isActive = true;
 
     private Long lockedByHrId; // null = free
+    private String qualification;
+
+    private String branch;
+
+    private Integer yearOfPassout;
     
     
+    
+
+	public Boolean getVerified() {
+		return verified;
+	}
+
+	public void setVerified(Boolean verified) {
+		this.verified = verified;
+	}
+
+	public Boolean getIsApproved() {
+		return isApproved;
+	}
+
+	public void setIsApproved(Boolean isApproved) {
+		this.isApproved = isApproved;
+	}
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public String getQualification() {
+		return qualification;
+	}
+
+	public void setQualification(String qualification) {
+		this.qualification = qualification;
+	}
+
+	public String getBranch() {
+		return branch;
+	}
+
+	public void setBranch(String branch) {
+		this.branch = branch;
+	}
+
+	public Integer getYearOfPassout() {
+		return yearOfPassout;
+	}
+
+	public void setYearOfPassout(Integer yearOfPassout) {
+		this.yearOfPassout = yearOfPassout;
+	}
 
 	public Long getId() {
 		return id;

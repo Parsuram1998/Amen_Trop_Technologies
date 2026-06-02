@@ -242,6 +242,26 @@ input:focus, textarea:focus, select:focus{
             <label>Eligibility</label>
             <input type="text" name="eligibility">
         </div>
+        
+        <div class="form-group">
+
+    <label>Eligible Branch</label>
+
+    <input type="text"
+           name="eligibleBranch"
+           placeholder="Computer Science"/>
+
+</div>
+
+<div class="form-group">
+
+    <label>Eligible Year Of Passout</label>
+
+    <input type="number"
+           name="eligibleYearOfPassout"
+           placeholder="2026"/>
+
+</div>
     </div>
 
     <!-- DESCRIPTION FULL -->

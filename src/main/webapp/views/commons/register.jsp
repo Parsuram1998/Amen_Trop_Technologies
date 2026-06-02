@@ -319,6 +319,8 @@ select option {
                 <select name="role">
                     <option value="FRESHER">Fresher</option>
                     <option value="PROFESSIONAL">Professional</option>
+                    <option value="HR">HR</option>
+                    
                 </select>
             </div>
 

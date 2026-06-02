@@ -35,11 +35,15 @@ public class FresherProfileServiceImpl implements FresherProfileService {
                             Double twelfth,
                             Double degree,
                             String preferredLocations,
+                           
                             boolean readyForBond,
                             MultipartFile resume,
                             MultipartFile video,
                             MultipartFile photo,
-                            MultipartFile aadhar) {
+                            MultipartFile aadhar,
+                            String qualification,
+                            String branch,
+                            Integer yearOfPassout) {
 
         Long userId = (Long) session.getAttribute("USER_ID");
 
@@ -63,8 +67,17 @@ public class FresherProfileServiceImpl implements FresherProfileService {
         profile.setDegreePercentage(degree);
         profile.setPreferredLocations(preferredLocations);
         profile.setReadyForBond(readyForBond);
-        profile.setStatus(FresherStatus.IN_PROGRESS);
-        profile.setCertificateApproved(false);
+        if(profile.getStatus() == null){
+            profile.setStatus(FresherStatus.IN_PROGRESS);
+        }
+        if(profile.getCertificateApproved() == null){
+            profile.setCertificateApproved(false);
+        }
+        profile.setQualification(qualification);
+
+        profile.setBranch(branch);
+
+        profile.setYearOfPassout(yearOfPassout);
         try {
 
             String resumeFile = fileUploadServices.saveFile(resume);

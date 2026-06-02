@@ -31,6 +31,12 @@ public class FresherProfile {
     private Double twelfthPercentage;
     private Double degreePercentage;
 
+    private String qualification;
+
+    private String branch;
+
+    private Integer yearOfPassout;
+    
     private String preferredLocations; // store comma separated
 
     private boolean readyForBond;
@@ -232,6 +238,30 @@ public class FresherProfile {
 
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
+	}
+
+	public String getQualification() {
+		return qualification;
+	}
+
+	public void setQualification(String qualification) {
+		this.qualification = qualification;
+	}
+
+	public String getBranch() {
+		return branch;
+	}
+
+	public void setBranch(String branch) {
+		this.branch = branch;
+	}
+
+	public Integer getYearOfPassout() {
+		return yearOfPassout;
+	}
+
+	public void setYearOfPassout(Integer yearOfPassout) {
+		this.yearOfPassout = yearOfPassout;
 	}
 
     // getters and setters

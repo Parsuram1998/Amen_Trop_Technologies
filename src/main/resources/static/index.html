@@ -1324,30 +1324,39 @@ section {
 	max-width: 300px;
 }
 
-.social-links {
-	display: flex;
-	gap: 1rem;
-	margin-top: 1.5rem;
+.social-icons{
+    display:flex !important;
+    flex-direction:row !important;
+    align-items:center !important;
+    gap:16px !important;
+    margin-top:30px;
 }
 
-.social-link {
-	width: 36px;
-	height: 36px;
-	border-radius: 50%;
-	background: rgba(255, 255, 255, 0.05);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: var(--gold);
-	text-decoration: none;
-	transition: all 0.3s ease;
-	border: 1px solid var(--border-color);
+.social-link{
+    width:48px;
+    height:48px;
+
+    border-radius:50%;
+
+    background:#111111;
+
+    border:1px solid rgba(212,175,55,0.16);
+
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+
+    color:var(--gold);
+
+    text-decoration:none;
+
+    transition:0.35s;
 }
 
-.social-link:hover {
-	background: var(--gold);
-	color: var(--black);
-	transform: translateY(-3px);
+.social-link:hover{
+    background:var(--gold);
+    color:black;
+    transform:translateY(-5px);
 }
 
 .footer-heading {
@@ -1381,7 +1390,23 @@ section {
 	color: var(--gold-light);
 	transform: translateX(5px);
 }
+.footer-bottom{
+    width:100%;
 
+    text-align:center !important;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    margin-top:60px;
+    padding-top:24px;
+
+    border-top:1px solid rgba(255,255,255,0.06);
+
+    color:#777;
+    font-size:0.95rem;
+}
 .copyright {
 	text-align: center;
 	margin-top: 3rem;
@@ -1887,12 +1912,15 @@ to {
 							<div
 								class="d-flex flex-wrap justify-content-center gap-3 slide-in-up"
 								data-delay="600">
-								<button class="btn btn-gold">
-									<i class="fas fa-rocket me-2"></i> Start Your Career
-								</button>
-								<button class="btn btn-gold">
-									<i class="fas fa-briefcase me-2"></i> Hire Talent
-								</button>
+								<a href="/auth/login" class="btn btn-gold">
+    <i class="fas fa-rocket me-2"></i>
+    Start Your Career
+</a>
+
+<a href="/auth/login" class="btn btn-gold">
+    <i class="fas fa-briefcase me-2"></i>
+    Hire Talent
+</a>
 							</div>
 						</div>
 					</div>
@@ -1920,12 +1948,7 @@ to {
 							<div
 								class="d-flex flex-wrap justify-content-center gap-3 slide-in-left"
 								data-delay="600">
-								<button class="btn btn-gold">
-									<i class="fas fa-graduation-cap me-2"></i> Explore Programs
-								</button>
-								<button class="btn btn-gold">
-									<i class="fas fa-chart-line me-2"></i> View Success Stories
-								</button>
+								
 							</div>
 						</div>
 					</div>
@@ -1953,12 +1976,7 @@ to {
 							<div
 								class="d-flex flex-wrap justify-content-center gap-3 slide-in-right"
 								data-delay="600">
-								<button class="btn btn-gold">
-									<i class="fas fa-search me-2"></i> Browse Candidates
-								</button>
-								<button class="btn btn-gold">
-									<i class="fas fa-calendar-check me-2"></i> Schedule Demo
-								</button>
+								
 							</div>
 						</div>
 					</div>
@@ -1986,12 +2004,15 @@ to {
 							<div
 								class="d-flex flex-wrap justify-content-center gap-3 slide-in-up"
 								data-delay="600">
-								<button class="btn btn-gold">
-									<i class="fas fa-users me-2"></i> Join Network
-								</button>
-								<button class="btn btn-gold">
-									<i class="fas fa-handshake me-2"></i> Partner With Us
-								</button>
+							<a href="/auth/login" class="btn btn-gold">
+    <i class="fas fa-rocket me-2"></i>
+   Join our network
+</a>
+
+<a href="/auth/register" class="btn btn-gold">
+    <i class="fas fa-briefcase me-2"></i>
+    Partner with us
+</a>
 							</div>
 						</div>
 					</div>
@@ -2275,7 +2296,7 @@ to {
 						<h3 class="gold-gradient">For Students</h3>
 						<p>Industry-aligned training programs with hands-on projects,
 							mentorship, and guaranteed placement assistance.</p>
-						<a href="#" class="btn btn-gold"> Explore Programs <i
+						<a href="/auth/login" class="btn btn-gold"> Explore Programs <i
 							class="fas fa-arrow-right"></i>
 						</a>
 					</div>
@@ -2291,7 +2312,7 @@ to {
 						<h3 class="gold-gradient">For HR Professionals</h3>
 						<p>Access to pre-screened, verified candidates with complete
 							portfolios and skill assessments.</p>
-						<a href="#" class="btn btn-gold"> Hire Talent <i
+						<a href="/auth/register" class="btn btn-gold"> Hire Talent <i
 							class="fas fa-arrow-right"></i>
 						</a>
 					</div>
@@ -2375,14 +2396,7 @@ to {
 					<p class="hero-text mb-5">Join thousands of successful
 						candidates and companies who have transformed their careers and
 						hiring processes with Amentrop.</p>
-					<div class="d-flex flex-wrap justify-content-center gap-3">
-						<button class="btn btn-gold btn-lg">
-							<i class="fas fa-user-graduate me-2"></i> Start Your Journey
-						</button>
-						<button class="btn btn-gold btn-lg">
-							<i class="fas fa-building me-2"></i> Request Demo
-						</button>
-					</div>
+					
 					<div class="mt-5">
 						<p style="color: var(--text-gray); font-size: 0.95rem;">
 							<i class="fas fa-shield-alt me-2 gold-gradient"></i> Trusted by
@@ -2406,7 +2420,9 @@ to {
 <div class="footer-logo">
 AMEN<span>TROP</span>
 </div>
-
+<p>
+Transforming education into employment through premium skill-based hiring and intelligent recruitment systems.
+</p>
 
 
 <div class="social-icons">

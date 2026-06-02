@@ -1,8 +1,12 @@
 package in.sp.main.Controllers;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -109,6 +113,8 @@ public class AdminJobController {
             @RequestParam String jobType,
             @RequestParam(required=false) boolean strictApply,
             @RequestParam(required = false) boolean bondRequired,
+            @RequestParam(required = false) String eligibleBranch,
+            @RequestParam(required = false) Integer eligibleYearOfPassout,
             Model model){
 
         boolean exists = jobRepository
@@ -139,6 +145,12 @@ public class AdminJobController {
         job.setStrictApply(strictApply);
         job.setCreatedAt(LocalDateTime.now());
         job.setBondRequired(bondRequired);
+        
+        job.setEligibleBranch(eligibleBranch);
+
+        job.setEligibleYearOfPassout(
+                eligibleYearOfPassout
+        );
         
         Job savedJob = jobRepository.save(job);
         jobMailService.sendJobNotification(savedJob);
@@ -226,99 +238,404 @@ public class AdminJobController {
     public void downloadApplicants(@RequestParam Long jobId,
                                    @RequestParam(required = false) String skill,
                                    @RequestParam(required = false) String role,
-                                   @RequestParam(required = false) Integer minExperience,
-                                   @RequestParam(required = false) Double minDegree,
+                                   @RequestParam(required = false) String minExperience,
+                                   @RequestParam(required = false) String minDegree,
                                    HttpServletResponse response) throws Exception {
 
-        Job job = jobRepository.findById(jobId).orElseThrow();
+        Job job = jobRepository.findById(jobId)
+                .orElseThrow();
 
-        List<JobApplication> apps = applicationRepository.findByJob(job);
+        List<JobApplication> apps =
+                applicationRepository.findByJob(job);
 
-        if (role != null && !role.trim().isEmpty()) {
+        // SAFE FILTER VALUES
+
+        final Integer expFilter;
+
+        if(minExperience != null
+                && !minExperience.trim().isEmpty()){
+
+            expFilter = Integer.parseInt(minExperience);
+
+        }
+        else{
+
+            expFilter = null;
+        }
+
+        final Double degFilter;
+
+        if(minDegree != null
+                && !minDegree.trim().isEmpty()){
+
+            degFilter = Double.parseDouble(minDegree);
+
+        }
+        else{
+
+            degFilter = null;
+        }
+
+        // ROLE FILTER
+
+        if (role != null
+                && !role.trim().isEmpty()) {
+
             apps = apps.stream()
-                    .filter(a -> a.getUser().getRole().name().equalsIgnoreCase(role))
+                    .filter(a ->
+                            a.getUser()
+                            .getRole()
+                            .name()
+                            .equalsIgnoreCase(role))
                     .toList();
         }
 
-        if (skill != null && !skill.trim().isEmpty()) {
-            String searchSkill = skill.toLowerCase();
+        // SKILL FILTER
+
+        if (skill != null
+                && !skill.trim().isEmpty()) {
+
+            String searchSkill =
+                    skill.toLowerCase();
 
             apps = apps.stream().filter(a -> {
+
                 User u = a.getUser();
 
-                if ("FRESHER".equalsIgnoreCase(u.getRole().name())) {
-                    FresherProfile fp = fresherRepo.findByUser(u).orElse(null);
+                if ("FRESHER".equalsIgnoreCase(
+                        u.getRole().name())) {
+
+                    FresherProfile fp =
+                            fresherRepo
+                            .findByUser(u)
+                            .orElse(null);
+
                     return fp != null
                             && fp.getSkillSet() != null
-                            && fp.getSkillSet().toLowerCase().contains(searchSkill);
+                            && fp.getSkillSet()
+                            .toLowerCase()
+                            .contains(searchSkill);
                 }
 
-                if ("PROFESSIONAL".equalsIgnoreCase(u.getRole().name())) {
-                    ProfessionalProfile pp = professionalRepo.findByUser(u).orElse(null);
+                if ("PROFESSIONAL".equalsIgnoreCase(
+                        u.getRole().name())) {
+
+                    ProfessionalProfile pp =
+                            professionalRepo
+                            .findByUser(u)
+                            .orElse(null);
+
                     return pp != null
                             && pp.getSkillSet() != null
-                            && pp.getSkillSet().toLowerCase().contains(searchSkill);
+                            && pp.getSkillSet()
+                            .toLowerCase()
+                            .contains(searchSkill);
                 }
 
                 return false;
+
             }).toList();
         }
 
-        if (minExperience != null) {
+        // EXPERIENCE FILTER
+
+        if (expFilter != null) {
+
             apps = apps.stream().filter(a -> {
+
                 User u = a.getUser();
 
-                if ("PROFESSIONAL".equalsIgnoreCase(u.getRole().name())) {
-                    ProfessionalProfile pp = professionalRepo.findByUser(u).orElse(null);
-                    return pp != null && pp.getExperienceYears() >= minExperience;
+                if ("PROFESSIONAL".equalsIgnoreCase(
+                        u.getRole().name())) {
+
+                    ProfessionalProfile pp =
+                            professionalRepo
+                            .findByUser(u)
+                            .orElse(null);
+
+                    return pp != null
+                            && pp.getExperienceYears()
+                            >= expFilter;
                 }
 
                 return true;
+
             }).toList();
         }
 
-        if (minDegree != null) {
+        // DEGREE FILTER
+
+        if (degFilter != null) {
+
             apps = apps.stream().filter(a -> {
+
                 User u = a.getUser();
 
-                if ("FRESHER".equalsIgnoreCase(u.getRole().name())) {
-                    FresherProfile fp = fresherRepo.findByUser(u).orElse(null);
+                if ("FRESHER".equalsIgnoreCase(
+                        u.getRole().name())) {
+
+                    FresherProfile fp =
+                            fresherRepo
+                            .findByUser(u)
+                            .orElse(null);
+
                     return fp != null
                             && fp.getDegreePercentage() != null
-                            && fp.getDegreePercentage() >= minDegree;
+                            && fp.getDegreePercentage()
+                            >= degFilter;
                 }
 
                 return true;
+
             }).toList();
         }
 
-        Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Applicants");
+        // EXCEL
 
-        Row header = sheet.createRow(0);
-        header.createCell(0).setCellValue("Name");
-        header.createCell(1).setCellValue("Email");
-        header.createCell(2).setCellValue("Phone");
-        header.createCell(3).setCellValue("Role");
-        header.createCell(4).setCellValue("Applied At");
+        Workbook workbook =
+                new XSSFWorkbook();
+
+        Sheet sheet =
+                workbook.createSheet("Applicants");
+
+        // HEADER STYLE
+
+        CellStyle headerStyle =
+                workbook.createCellStyle();
+
+        Font headerFont =
+                workbook.createFont();
+
+        headerFont.setBold(true);
+
+        headerFont.setFontHeightInPoints((short)12);
+
+        headerStyle.setFont(headerFont);
+
+        // HEADER
+
+        Row header =
+                sheet.createRow(0);
+
+        String[] columns = {
+                "Name",
+                "Email",
+                "Phone",
+                "Role",
+                "Qualification",
+                "Branch",
+                "Year Of Passout",
+                "Skills",
+                "Experience",
+                "Degree %",
+                "Applied At"
+        };
+        
+        
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern(
+                        "dd MMM yyyy hh:mm a"
+                );
+
+        for(int i = 0; i < columns.length; i++){
+
+            Cell cell = header.createCell(i);
+
+            cell.setCellValue(columns[i]);
+
+            cell.setCellStyle(headerStyle);
+        }
 
         int rowCount = 1;
 
+        // DATA
+
         for (JobApplication app : apps) {
-            Row row = sheet.createRow(rowCount++);
+
+            Row row =
+                    sheet.createRow(rowCount++);
 
             User u = app.getUser();
-            row.createCell(0).setCellValue(u.getFullName() != null ? u.getFullName() : "");
-            row.createCell(1).setCellValue(u.getEmail() != null ? u.getEmail() : "");
-            row.createCell(2).setCellValue(u.getPhone() != null ? u.getPhone() : "");
-            row.createCell(3).setCellValue(u.getRole() != null ? u.getRole().name() : "");
-            row.createCell(4).setCellValue(app.getAppliedAt() != null ? app.getAppliedAt().toString() : "");
+
+            FresherProfile fp =
+                    fresherRepo
+                    .findByUser(u)
+                    .orElse(null);
+
+            ProfessionalProfile pp =
+                    professionalRepo
+                    .findByUser(u)
+                    .orElse(null);
+
+            // NAME
+
+            row.createCell(0).setCellValue(
+                    u.getFullName() != null
+                    ? u.getFullName()
+                    : ""
+            );
+
+            // EMAIL
+
+            row.createCell(1).setCellValue(
+                    u.getEmail() != null
+                    ? u.getEmail()
+                    : ""
+            );
+
+            // PHONE
+
+            row.createCell(2).setCellValue(
+                    u.getPhone() != null
+                    ? u.getPhone()
+                    : ""
+            );
+
+            // ROLE
+
+            row.createCell(3).setCellValue(
+                    u.getRole() != null
+                    ? u.getRole().name()
+                    : ""
+            );
+
+            // QUALIFICATION
+
+            String qualification = "";
+
+            if(fp != null
+                    && fp.getQualification() != null){
+
+                qualification = fp.getQualification();
+            }
+
+            if(pp != null
+                    && pp.getQualification() != null){
+
+                qualification = pp.getQualification();
+            }
+
+            row.createCell(4).setCellValue(
+                    qualification
+            );
+
+            // BRANCH
+
+            String branch = "";
+
+            if(fp != null
+                    && fp.getBranch() != null){
+
+                branch = fp.getBranch();
+            }
+
+            if(pp != null
+                    && pp.getBranch() != null){
+
+                branch = pp.getBranch();
+            }
+
+            row.createCell(5).setCellValue(
+                    branch
+            );
+
+            // YEAR OF PASSOUT
+
+            String yop = "";
+
+            if(fp != null
+                    && fp.getYearOfPassout() != null){
+
+                yop = String.valueOf(
+                        fp.getYearOfPassout()
+                );
+            }
+
+            if(pp != null
+                    && pp.getYearOfPassout() != null){
+
+                yop = String.valueOf(
+                        pp.getYearOfPassout()
+                );
+            }
+
+            row.createCell(6).setCellValue(
+                    yop
+            );
+
+            // SKILLS
+
+            String skills = "";
+
+            if(fp != null
+                    && fp.getSkillSet() != null){
+
+                skills = fp.getSkillSet();
+            }
+
+            if(pp != null
+                    && pp.getSkillSet() != null){
+
+                skills = pp.getSkillSet();
+            }
+
+            row.createCell(7).setCellValue(
+                    skills
+            );
+
+            // EXPERIENCE
+
+            row.createCell(8).setCellValue(
+                    pp != null
+                    ? String.valueOf(
+                            pp.getExperienceYears()
+                    )
+                    : ""
+            );
+
+            // DEGREE %
+
+            String degree = "N/A";
+
+            if(fp != null
+                    && fp.getDegreePercentage() != null){
+
+                degree = String.valueOf(
+                        fp.getDegreePercentage()
+                );
+            }
+
+            row.createCell(9).setCellValue(degree);
+            
+            // APPLIED DATE
+
+            
+            
+            row.createCell(10).setCellValue(
+                    app.getAppliedAt() != null
+                    ? app.getAppliedAt().format(formatter)
+                    : ""
+            );
         }
 
-        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        response.setHeader("Content-Disposition", "attachment; filename=filtered_applicants.xlsx");
+        // AUTO SIZE
+
+        for(int i = 0; i < columns.length; i++){
+
+            sheet.autoSizeColumn(i);
+        }
+
+        response.setContentType(
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        );
+
+        response.setHeader(
+                "Content-Disposition",
+                "attachment; filename=applicants.xlsx"
+        );
 
         workbook.write(response.getOutputStream());
+
         workbook.close();
     }
     

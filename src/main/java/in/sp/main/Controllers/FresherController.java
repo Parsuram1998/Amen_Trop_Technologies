@@ -166,7 +166,10 @@ public class FresherController {
            @RequestParam(required = false) MultipartFile resume,
            @RequestParam(required = false) MultipartFile video,
            @RequestParam(required = false) MultipartFile photo,
-           @RequestParam(required = false) MultipartFile aadhar
+           @RequestParam(required = false) MultipartFile aadhar,
+           @RequestParam String qualification,
+           @RequestParam String branch,
+           @RequestParam Integer yearOfPassout
    ) {
 
        try {
@@ -182,7 +185,7 @@ public class FresherController {
                    resume,
                    video,
                    photo,
-                   aadhar
+                   aadhar,qualification,branch,yearOfPassout
            );
        } catch (Exception e) {
            e.printStackTrace();

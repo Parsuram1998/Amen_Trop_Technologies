@@ -36,6 +36,42 @@ public class Job {
     private Boolean bondRequired;
 
     private LocalDateTime createdAt;
+    private String eligibleBranch;
+
+    private Integer eligibleYearOfPassout;
+    
+    
+	public Boolean getStrictApply() {
+		return strictApply;
+	}
+
+	public void setStrictApply(Boolean strictApply) {
+		this.strictApply = strictApply;
+	}
+
+	public Boolean getBondRequired() {
+		return bondRequired;
+	}
+
+	public void setBondRequired(Boolean bondRequired) {
+		this.bondRequired = bondRequired;
+	}
+
+	public String getEligibleBranch() {
+		return eligibleBranch;
+	}
+
+	public void setEligibleBranch(String eligibleBranch) {
+		this.eligibleBranch = eligibleBranch;
+	}
+
+	public Integer getEligibleYearOfPassout() {
+		return eligibleYearOfPassout;
+	}
+
+	public void setEligibleYearOfPassout(Integer eligibleYearOfPassout) {
+		this.eligibleYearOfPassout = eligibleYearOfPassout;
+	}
 
 	public Long getId() {
 		return id;
