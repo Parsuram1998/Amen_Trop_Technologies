@@ -1,7 +1,13 @@
 package in.sp.main.Entities;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name="jobs")
@@ -40,6 +46,8 @@ public class Job {
 
     private Integer eligibleYearOfPassout;
     
+    @Column(name = "drive_ended", nullable = false)
+    private boolean driveEnded = false;
     
 	public Boolean getStrictApply() {
 		return strictApply;
@@ -175,6 +183,14 @@ public class Job {
 
 	public void setBondRequired(boolean bondRequired) {
 		this.bondRequired = bondRequired;
+	}
+
+	public boolean isDriveEnded() {
+		return driveEnded;
+	}
+
+	public void setDriveEnded(boolean driveEnded) {
+		this.driveEnded = driveEnded;
 	}
 
   

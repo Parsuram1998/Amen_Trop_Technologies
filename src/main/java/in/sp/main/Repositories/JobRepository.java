@@ -9,8 +9,14 @@ import in.sp.main.Entities.Job;
 
 public interface JobRepository extends JpaRepository<Job,Long>{
 
-	@Query("SELECT j FROM Job j WHERE LOWER(j.jobType) IN :types")
-	List<Job> findByJobTypeInIgnoreCase(List<String> types);
+
+    @Query("""
+        SELECT j FROM Job j
+        WHERE LOWER(j.jobType) IN :types
+        AND j.driveEnded = false
+    """)
+    List<Job> findByJobTypeInIgnoreCase(List<String> types);
+
 	
 	 boolean existsByTitleAndCompanyNameAndLocation(
 	            String title,

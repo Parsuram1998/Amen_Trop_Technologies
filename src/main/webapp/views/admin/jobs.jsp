@@ -8,7 +8,8 @@
 <title>Amentrop - Jobs</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <style>
 
 :root{
@@ -171,6 +172,175 @@ tr:hover{
     font-size:0.8rem;
 }
 
+/* =========================
+   JOB STATUS
+========================= */
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.status i {
+    font-size: 9px;
+}
+
+
+/* ACTIVE */
+
+.status.active {
+    color: #7ee787;
+
+    background: rgba(46, 160, 67, 0.12);
+
+    border: 1px solid rgba(46, 160, 67, 0.25);
+}
+
+
+/* ENDED */
+
+.status.ended {
+    color: #ff7b7b;
+
+    background: rgba(239, 68, 68, 0.10);
+
+    border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.actions {
+    white-space: nowrap;
+}
+
+
+.action-btn {
+
+    width: 34px;
+    height: 34px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-right: 5px;
+
+    border-radius: 8px;
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    background: #1a1a1a;
+
+    color: #aaa;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    transition: all 0.2s ease;
+}
+
+
+.action-btn i {
+    font-size: 13px;
+}
+
+
+/* EDIT */
+
+.edit-btn:hover {
+
+    color: var(--gold);
+
+    border-color: var(--gold);
+
+    background: rgba(212,175,55,0.08);
+
+}
+
+
+/* END DRIVE */
+
+.end-btn:hover {
+
+    color: #f5d173;
+
+    border-color: #d4af37;
+
+    background: rgba(212,175,55,0.08);
+
+}
+
+
+/* DELETE */
+
+.delete-btn:hover {
+
+    color: #ff6b6b;
+
+    border-color: #ff6b6b;
+
+    background: rgba(255,70,70,0.08);
+
+}
+
+/* =========================
+   VIEW APPLICANTS
+========================= */
+
+.icon-btn {
+
+    width: 34px;
+    height: 34px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    background: #1a1a1a;
+
+    color: #aaa;
+
+    text-decoration: none;
+
+    transition: all 0.2s ease;
+}
+
+
+.icon-btn:hover {
+
+    color: var(--gold);
+
+    border-color: var(--gold);
+
+    background: rgba(212,175,55,0.08);
+
+}
+
+
+.icon-btn i {
+
+    font-size: 13px;
+
+}
+
 </style>
 </head>
 
@@ -205,67 +375,214 @@ tr:hover{
 
     <div class="table-card">
 
-        <table>
+       <table>
 
-            <tr>
-                <th>Title</th>
-                <th>Company</th>
-                <th>Location</th>
-                <th>Domain</th>
-                <th>Min Exp</th>
-                <th>Applicants</th>
-                <th>Update</th>
-            </tr>
+    <tr>
 
-            <c:forEach items="${jobs}" var="j">
+        <th>Title</th>
 
-            <tr>
+        <th>Company</th>
 
-                <td>${j.title}</td>
-                <td class="muted">${j.companyName}</td>
-                <td>${j.location}</td>
-                <td>${j.domain}</td>
-                <td>${j.minExperience}</td>
+        <th>Location</th>
 
-                <!-- VIEW APPLICANTS ICON -->
-                <td>
-                    <a class="icon-btn"
-                       href="${pageContext.request.contextPath}/admin/job-applicants?jobId=${j.id}"
-                       title="View Applicants">
+        <th>Domain</th>
 
-                        <svg width="16" height="16" viewBox="0 0 24 24">
-                            <path d="M3 12s4-6 9-6 9 6 9 6-4 6-9 6-9-6-9-6z" stroke="currentColor" fill="none"/>
-                            <circle cx="12" cy="12" r="3" stroke="currentColor"/>
-                        </svg>
+        <th>Min Exp</th>
 
-                    </a>
-                </td>
+        <th>Status</th>
 
-                <!-- UPDATE -->
-                <td>
+        <th>Applicants</th>
 
-                    <form method="post"
-                          action="${pageContext.request.contextPath}/admin/add-update">
+        <th>Actions</th>
 
-                        <input type="hidden" name="jobId" value="${j.id}">
+        <th>Update</th>
 
-                        <div class="update-box">
-                            <input type="text"
-                                   name="updateText"
-                                   placeholder="Add update">
-                            <button>Save</button>
-                        </div>
+    </tr>
 
-                    </form>
 
-                </td>
+    <c:forEach items="${jobs}" var="j">
 
-            </tr>
+    <tr>
 
-            </c:forEach>
+        <!-- JOB TITLE -->
 
-        </table>
+        <td>
+            ${j.title}
+        </td>
 
+
+        <!-- COMPANY -->
+
+        <td class="muted">
+            ${j.companyName}
+        </td>
+
+
+        <!-- LOCATION -->
+
+        <td>
+            ${j.location}
+        </td>
+
+
+        <!-- DOMAIN -->
+
+        <td>
+            ${j.domain}
+        </td>
+
+
+        <!-- MIN EXPERIENCE -->
+
+        <td>
+            ${j.minExperience}
+        </td>
+
+
+        <!-- STATUS -->
+
+        <td>
+
+            <c:choose>
+
+                <c:when test="${j.driveEnded}">
+
+                    <span class="status ended">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                        Ended
+                    </span>
+
+                </c:when>
+
+                <c:otherwise>
+
+                    <span class="status active">
+                        <i class="fa-solid fa-circle-check"></i>
+                        Active
+                    </span>
+
+                </c:otherwise>
+
+            </c:choose>
+
+        </td>
+
+
+        <!-- VIEW APPLICANTS -->
+
+        <td>
+
+            <a class="icon-btn"
+               href="${pageContext.request.contextPath}/admin/job-applicants?jobId=${j.id}"
+               title="View Applicants">
+
+                <i class="fa-solid fa-eye"></i>
+
+            </a>
+
+        </td>
+
+
+        <!-- ACTIONS -->
+
+        <td class="actions">
+
+
+            <!-- EDIT -->
+
+            <a class="action-btn edit-btn"
+               href="${pageContext.request.contextPath}/admin/edit-job?jobId=${j.id}"
+               title="Edit Job">
+
+                <i class="fa-solid fa-pen-to-square"></i>
+
+            </a>
+
+
+            <!-- END DRIVE -->
+
+            <c:if test="${not j.driveEnded}">
+
+                <form method="post"
+                      action="${pageContext.request.contextPath}/admin/end-drive"
+                      style="display:inline;">
+
+                    <input type="hidden"
+                           name="jobId"
+                           value="${j.id}">
+
+                    <button type="submit"
+                            class="action-btn end-btn"
+                            title="End Drive"
+                            onclick="return confirm('Are you sure you want to end this drive? Students will no longer be able to apply.');">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                    </button>
+
+                </form>
+
+            </c:if>
+
+
+            <!-- DELETE -->
+
+            <form method="post"
+                  action="${pageContext.request.contextPath}/admin/delete-job"
+                  style="display:inline;">
+
+                <input type="hidden"
+                       name="jobId"
+                       value="${j.id}">
+
+                <button type="submit"
+                        class="action-btn delete-btn"
+                        title="Delete Job"
+                        onclick="return confirm('Are you sure you want to delete this job?');">
+
+                    <i class="fa-solid fa-trash"></i>
+
+                </button>
+
+            </form>
+
+
+        </td>
+
+
+        <!-- ADD UPDATE -->
+
+        <td>
+
+            <form method="post"
+                  action="${pageContext.request.contextPath}/admin/add-update">
+
+                <input type="hidden"
+                       name="jobId"
+                       value="${j.id}">
+
+                <div class="update-box">
+
+                    <input type="text"
+                           name="updateText"
+                           placeholder="Add update">
+
+                    <button type="submit">
+                        Save
+                    </button>
+
+                </div>
+
+            </form>
+
+        </td>
+
+
+    </tr>
+
+    </c:forEach>
+
+</table>
     </div>
 
 </div>

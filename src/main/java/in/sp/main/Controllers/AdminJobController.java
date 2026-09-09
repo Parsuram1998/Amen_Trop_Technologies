@@ -664,4 +664,86 @@ public class AdminJobController {
             throw e;               // rethrow so you still see error page
         }
     }
+    
+    @RequestMapping(value="/edit-job", method=RequestMethod.GET)
+    public String editJob(@RequestParam Long jobId, Model model) {
+
+        Job job = jobRepository.findById(jobId)
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+
+        model.addAttribute("job", job);
+
+        return "admin/edit-job";
+    }
+    
+    @RequestMapping(value="/update-job", method=RequestMethod.POST)
+    public String updateJob(
+            @RequestParam Long jobId,
+            @RequestParam String title,
+            @RequestParam String companyName,
+            @RequestParam String location,
+            @RequestParam String domain,
+            @RequestParam String description,
+            @RequestParam String eligibility,
+            @RequestParam int minExperience,
+            @RequestParam double minPercentage,
+            @RequestParam String jobType,
+            @RequestParam(required = false) boolean strictApply,
+            @RequestParam(required = false) boolean bondRequired,
+            @RequestParam(required = false) String eligibleBranch,
+            @RequestParam(required = false) Integer eligibleYearOfPassout) {
+
+        Job job = jobRepository.findById(jobId)
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+
+        job.setTitle(title);
+        job.setCompanyName(companyName);
+        job.setLocation(location);
+        job.setDomain(domain);
+        job.setDescription(description);
+        job.setEligibility(eligibility);
+        job.setMinExperience(minExperience);
+        job.setMinPercentage(minPercentage);
+        job.setJobType(jobType);
+        job.setStrictApply(strictApply);
+        job.setBondRequired(bondRequired);
+        job.setEligibleBranch(eligibleBranch);
+        job.setEligibleYearOfPassout(eligibleYearOfPassout);
+
+        jobRepository.save(job);
+
+        return "redirect:/admin/jobs";
+    }
+    
+    @RequestMapping(value="/end-drive", method=RequestMethod.POST)
+    public String endDrive(@RequestParam Long jobId) {
+
+        Job job = jobRepository.findById(jobId)
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+
+        job.setDriveEnded(true);
+
+        jobRepository.save(job);
+
+        return "redirect:/admin/jobs";
+    }
+    
+    @RequestMapping(value="/delete-job", method=RequestMethod.POST)
+    public String deleteJob(@RequestParam Long jobId, Model model) {
+
+        Job job = jobRepository.findById(jobId)
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+
+        List<JobApplication> applications =
+                applicationRepository.findByJob(job);
+
+        if (!applications.isEmpty()) {
+
+            return "redirect:/admin/jobs?deleteError=applications";
+        }
+
+        jobRepository.delete(job);
+
+        return "redirect:/admin/jobs?deleted=true";
+    }
 }

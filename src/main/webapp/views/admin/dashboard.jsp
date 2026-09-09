@@ -128,6 +128,7 @@ body{
         <a href="${pageContext.request.contextPath}/admin/freshers">Freshers</a>
         <a href="${pageContext.request.contextPath}/admin/professionals">Professionals</a>
         <a href="${pageContext.request.contextPath}/admin/jobs">Jobs</a>
+        <a href="${pageContext.request.contextPath}/admin/colleges">Registered Colleges</a>
         <a href="${pageContext.request.contextPath}/admin/hr-feedback">Feedback</a>
         <a href="${pageContext.request.contextPath}/admin/send-message">Send Message</a>
         <a href="${pageContext.request.contextPath}/logout">Logout</a>
